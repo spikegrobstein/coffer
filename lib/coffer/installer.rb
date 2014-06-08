@@ -3,8 +3,8 @@ require 'git'
 module Coffer
   class Installer
 
-    CACHE_DIR = '/tmp/coffer/cache'
-    BIN_DIR = '/tmp/coffer/bin'
+    CACHE_DIR = '/opt/coffer/cache'
+    BIN_DIR = '/opt/coffer/bin'
 
     attr_reader :coin
 
@@ -121,7 +121,7 @@ module Coffer
     end
 
     def repo_path
-      File.join CACHE_DIR, self.class.to_s.downcase
+      File.join CACHE_DIR, @coin.name
     end
 
     def installed_executable_path

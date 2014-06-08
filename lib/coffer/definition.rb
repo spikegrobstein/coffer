@@ -18,6 +18,10 @@ module Coffer
       @@requirements
     end
 
+    def name
+      ActiveSupport::Inflector.underscore(self.class.to_s)
+    end
+
     class << self
 
       def attr_field( name, default=nil )
