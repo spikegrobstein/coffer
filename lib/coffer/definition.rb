@@ -78,7 +78,7 @@ module Coffer
     end
 
     def installed_executable_path
-      File.join BIN_PATH, wallet_executable
+      File.join BIN_DIR, wallet_executable
     end
 
     def built_executable_path
