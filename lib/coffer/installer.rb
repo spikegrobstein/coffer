@@ -44,6 +44,8 @@ module Coffer
     def clone
       return false if File.directory?( repo_path )
 
+      warn "Cloning repo... #{repo_path}"
+
       g = Git.clone( coin.git_repo, File.basename(repo_path), :path => File.dirname(repo_path) )
 
       true
@@ -53,6 +55,8 @@ module Coffer
     # ref checked out.
     def pull
       raise "Not a git repository! (#{ repo_path })" unless File.directory?( repo_path )
+
+      warn "Updating repo... #{repo_path}"
 
       g = Git.open( repo_path, :logger => Logger.new(STDOUT) )
 
