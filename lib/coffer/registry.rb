@@ -15,15 +15,19 @@ module Coffer
     def initialize
       make_directories
       @coins = []
-      load_coins
+      load_coins File.join(File.dirname(__FILE__), '../../coins')
     end
 
     def make_directories
       FileUtils.mkdir_p BIN_DIR
     end
 
-    def load_coins
-      warn "not loading any coins."
+    def load_coins(directory)
+      Dir["#{ directory }/*.rb"].each do |d|
+        require d
+
+        self.load File.basename(d, '.rb')
+      end
     end
 
     def self.load(coin)
