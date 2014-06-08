@@ -1,9 +1,12 @@
 require 'bundler/setup'
-require 'coffer/coin_installer'
-require 'coffer/coins/feathercoin'
+require 'coffer/registry'
+require 'coffer/definition'
+require File.join( File.dirname(__FILE__), 'coins' )
+
 require 'pry'
 require 'fileutils'
 
+# cleanup
 FileUtils.rm_rf '/tmp/coffer'
 
 c = Coffer::Coin::Feathercoin.new
