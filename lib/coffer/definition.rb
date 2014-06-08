@@ -52,7 +52,7 @@ module Coffer
     end
 
     def start
-      `#{ installed_executable } -daemon`
+      `#{ installed_executable_path } -daemon`
     end
 
     def check_results
@@ -77,7 +77,7 @@ module Coffer
       File.join CACHE_DIR, self.class.to_s.downcase
     end
 
-    def installed_executable
+    def installed_executable_path
       File.join BIN_PATH, wallet_executable
     end
 
