@@ -19,7 +19,8 @@ module Coffer
     end
 
     def name
-      ActiveSupport::Inflector.underscore(self.class.to_s)
+      name = ActiveSupport::Inflector.demodulize(self.class.to_s)
+      name = ActiveSupport::Inflector.underscore(name)
     end
 
     class << self
