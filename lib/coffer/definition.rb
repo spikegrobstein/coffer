@@ -19,26 +19,31 @@ module Coffer
     end
 
     def name
-      name = ActiveSupport::Inflector.demodulize(self.class.to_s)
-      name = ActiveSupport::Inflector.underscore(name)
+      self.class.name
     end
 
     class << self
 
+      def name
+        name = ActiveSupport::Inflector.demodulize(self)
+        name = ActiveSupport::Inflector.underscore(name)
+      end
+
       def attr_field( name, default=nil )
         class_eval do
-          class_variable_set "@@#{name}", default
+          instance_variable_set "@#{name}", default
+          # class_variable_set "@#{name}", default
 
           define_singleton_method(name) do |v=nil|
             unless v.nil?
-              class_variable_set "@@#{name}", v
+              instance_variable_set "@#{name}", v
             end
 
-            class_variable_get "@@#{name}"
+            instance_variable_get "@#{name}"
           end
 
           define_method(name) do
-            self.class.class_variable_get "@@#{name}"
+            self.class.instance_variable_get "@#{name}"
           end
         end
 

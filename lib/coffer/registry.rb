@@ -46,7 +46,7 @@ module Coffer
 
       @coins << coin
 
-      warn "Loaded coin: #{ coin.inspect }"
+      warn "Loaded coin: #{ coin.inspect } #{ coin.symbol }"
     end
 
   end
