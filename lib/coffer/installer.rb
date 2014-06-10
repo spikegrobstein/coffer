@@ -89,7 +89,7 @@ module Coffer
     end
 
     def wallet_home_directory
-      File.expand_path("~/.#{ directory }")
+      File.expand_path("~/.#{ @coin.directory }")
     end
 
     def create_config
@@ -125,11 +125,11 @@ module Coffer
     end
 
     def installed_executable_path
-      File.join BIN_DIR, wallet_executable
+      File.join BIN_DIR, @coin.wallet_executable
     end
 
     def built_executable_path
-      File.join repo_path, 'src', wallet_executable
+      File.join repo_path, 'src', @coin.wallet_executable
     end
 
     def built_executable_exists?
