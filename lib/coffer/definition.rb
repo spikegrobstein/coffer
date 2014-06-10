@@ -1,8 +1,12 @@
 require 'fileutils'
 require 'set'
 
+require 'coffer/configuration'
+
 module Coffer
   class Definition
+
+    attr_accessor :config
 
     def initialize
       validate!
@@ -27,6 +31,33 @@ module Coffer
       def name
         name = ActiveSupport::Inflector.demodulize(self)
         name = ActiveSupport::Inflector.underscore(name)
+      end
+
+      def config_field( key, value )
+        @config_fields ||= []
+        @config_fields << [key,value]
+      end
+
+      def build_config
+        return @config if @config
+
+        @config = Configuration.new
+
+        @config.add :rpcuser, 'cofferuser'
+        @config.add :rpcpassword, 'cofferpass'
+        @config.add :server, '1'
+        @config.add :rpcallowip, '127.0.0.1'
+        @config.add :listen, '1'
+        @config.add :port, '4444' #Coffer::Registry.port
+
+        # now custom fields
+        if @config_fields
+          fields.each do |f|
+            @config.add f[0], f[1]
+          end
+        end
+
+        @config
       end
 
       def attr_field( name, default=nil )

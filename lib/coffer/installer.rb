@@ -93,9 +93,21 @@ module Coffer
     end
 
     def create_config
-      File.open( File.join( wallet_home_directory, @coin.config_file ), 'w' ) do |f|
-        f.write "config file"
+      if File.exists?( config_path )
+        puts "Not creating config. (#{ config_path })"
+        return
       end
+
+      binding.pry
+      File.open( config_path , 'w' ) do |f|
+        f.write @coin.build_config.to_config
+      end
+
+      FileUtils.chmod 0600, config_path
+    end
+
+    def config_path
+      File.join( wallet_home_directory, @coin.config_file )
     end
 
     def start
