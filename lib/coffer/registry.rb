@@ -49,5 +49,12 @@ module Coffer
       warn "Loaded coin: #{ coin.inspect } #{ coin.symbol }"
     end
 
+    def find( coin )
+      coin = coin.downcase
+      @coins.find do |c|
+        c.name.downcase == coin || c.symbol.to_s.downcase == coin
+      end
+    end
+
   end
 end
