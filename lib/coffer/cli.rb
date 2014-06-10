@@ -18,7 +18,20 @@ module Coffer
 
     desc "install <coin>", "Install the given coin."
     def install(coin)
-      warn "installing coin."
+      coin = Coffer::Registry.instance.find( coin )
+
+      if coin.nil?
+        warn "Unable to find a coin with a name or symbol of #{ coin }"
+      end
+
+      warn "installing coin: #{ coin.name } (#{coin.symbol})"
+
+      installer = Coffer::Installer.new(coin)
+      if installer.install
+        puts "success!"
+      else
+        puts "Failed to install coin..."
+      end
     end
   end
 end
