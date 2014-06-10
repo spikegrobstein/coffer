@@ -13,14 +13,14 @@ module Coffer
     end
 
     def install
-      FileUtils.mkdir_p CACHE_DIR
-      FileUtils.mkdir_p BIN_DIR
+      mkdir CACHE_DIR, 0655
+      mkdir BIN_DIR, 0655
 
       update_repo
       # preconfigure
 
       Dir.chdir( File.join( repo_path, 'src') ) do
-        FileUtils.mkdir 'obj' unless File.exists?('obj')
+        mkdir 'obj', 0655
         make
 
         check_results
@@ -85,7 +85,7 @@ module Coffer
     end
 
     def create_directories
-      FileUtils.mkdir wallet_home_directory, :mode => 0600
+      mkdir wallet_home_directory, 0700
     end
 
     def wallet_home_directory
@@ -93,8 +93,8 @@ module Coffer
     end
 
     def create_config
-      File.open( File.join( wallet_home_path, config_file ), 'w' ) do |f|
-        "config file"
+      File.open( File.join( wallet_home_directory, @coin.config_file ), 'w' ) do |f|
+        f.write "config file"
       end
     end
 
@@ -117,6 +117,14 @@ module Coffer
         'makefile.osx'
       elsif sys == 'linux'
         'makefile.unix'
+      end
+    end
+
+    def mkdir( path, mode=0700 )
+      begin
+        FileUtils.mkdir_p path, :mode => mode
+      rescue Errno::EEXIST
+        #pass
       end
     end
 
