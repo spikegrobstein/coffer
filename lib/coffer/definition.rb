@@ -38,6 +38,28 @@ module Coffer
         @config_fields << [key,value]
       end
 
+      def executable_path
+        "/opt/coffer/bin/#{ wallet_executable }"
+      end
+
+      def start
+        pid = Process.spawn(
+               executable_path, "-daemon",
+               :out => '/dev/null', :err => '/dev/null')
+
+        # Detach the spawned process
+        Process.detach pid
+      end
+
+      def stop
+        pid = Process.spawn(
+               executable_path, "stop",
+               :out => '/dev/null', :err => '/dev/null')
+
+        # Detach the spawned process
+        Process.detach pid
+      end
+
       def build_config
         return @config if @config
 

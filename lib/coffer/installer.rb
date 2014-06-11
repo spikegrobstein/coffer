@@ -29,7 +29,6 @@ module Coffer
       copy_built_executable
       create_directories
       create_config
-      start
     end
 
     # ensure that this git repo is running the latest

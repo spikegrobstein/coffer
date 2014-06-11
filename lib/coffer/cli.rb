@@ -33,5 +33,27 @@ module Coffer
         puts "Failed to install coin..."
       end
     end
+
+    desc "start <coin>", "Start the given coin."
+    def start(coin)
+      coin = Coffer::Registry.instance.find(coin)
+
+      if coin.nil?
+        warn "Unable to find a coin with a name or symbol of #{ coin }"
+      end
+
+      coin.start
+    end
+
+    desc "stop <coin>", "Stop the given coin."
+    def stop(coin)
+      coin = Coffer::Registry.instance.find(coin)
+
+      if coin.nil?
+        warn "Unable to find a coin with a name or symbol of #{ coin }"
+      end
+
+      coin.stop
+    end
   end
 end
