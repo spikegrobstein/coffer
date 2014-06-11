@@ -118,14 +118,29 @@ module Coffer
 
     def make
       if @coin.build.nil?
-        puts `make -f '#{ makefile_name }'`
+        cmd = "make -f '#{ makefile_name }'"
+
+        puts `#{cmd}`
+
+        retval = $?
+        if retval != 0
+          warn "ERROR from command: (#{ cmd }): #{ retval }"
+        end
       else
         @coin.build.split("\n").each do |cmd|
           cmd = cmd.strip
           puts "EXEC> #{ cmd }"
           puts `#{cmd}`
+
+          retval = $?
+          if retval != 0
+            warn "ERROR from command (#{cmd}): #{ retval }"
+            return false
+          end
         end
       end
+
+      true
     end
 
     def makefile_name
