@@ -109,6 +109,8 @@ module Coffer
     attr_field :home_page
     attr_field :directory
     attr_field :config_file
+    attr_field :build
+    attr_field :build_dir, 'src'
 
   end
 

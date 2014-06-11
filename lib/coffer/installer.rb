@@ -19,7 +19,7 @@ module Coffer
       update_repo
       # preconfigure
 
-      Dir.chdir( File.join( repo_path, 'src') ) do
+      Dir.chdir( File.join( repo_path, @coin.build_dir) ) do
         mkdir 'obj', 0755
         make
 
@@ -117,7 +117,15 @@ module Coffer
     end
 
     def make
-      puts `make -f '#{ makefile_name }'`
+      if @coin.build.nil?
+        puts `make -f '#{ makefile_name }'`
+      else
+        @coin.build.split("\n").each do |cmd|
+          cmd = cmd.strip
+          puts "EXEC> #{ cmd }"
+          puts `#{cmd}`
+        end
+      end
     end
 
     def makefile_name
