@@ -13,14 +13,14 @@ module Coffer
     end
 
     def install
-      mkdir CACHE_DIR, 0655
-      mkdir BIN_DIR, 0655
+      mkdir CACHE_DIR, 0755
+      mkdir BIN_DIR, 0755
 
       update_repo
       # preconfigure
 
       Dir.chdir( File.join( repo_path, 'src') ) do
-        mkdir 'obj', 0655
+        mkdir 'obj', 0755
         make
 
         check_results
