@@ -98,7 +98,6 @@ module Coffer
         return
       end
 
-      binding.pry
       File.open( config_path , 'w' ) do |f|
         f.write @coin.build_config.to_config
       end
