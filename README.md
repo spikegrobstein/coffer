@@ -22,9 +22,10 @@ On ubuntu:
 
  * git
  * build-essential
- * libboost-dev
+ * libboost-all-dev
  * libssl-dev
  * libdb++-dev
+ * libminiupnpc-dev
 
 Probably ruby 2.x
 
