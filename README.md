@@ -26,6 +26,7 @@ On ubuntu:
  * libssl-dev
  * libdb++-dev
  * libminiupnpc-dev
+ * autoconf
 
 Probably ruby 2.x
 
