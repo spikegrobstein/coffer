@@ -16,6 +16,18 @@ Or install it yourself as:
 
     $ gem install coffer
 
+## Requirements
+
+On ubuntu:
+
+ * git
+ * build-essential
+ * libboost-dev
+ * libssl-dev
+ * libdb++-dev
+
+Probably ruby 2.x
+
 ## Usage
 
 TODO: Write usage instructions here
