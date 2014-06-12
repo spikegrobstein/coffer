@@ -2,5 +2,6 @@
 
 require 'coffer/cli'
 
+Coffer::CLI.load_coins
 Coffer::CLI.start(ARGV)
 

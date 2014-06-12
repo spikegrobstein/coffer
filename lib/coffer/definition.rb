@@ -42,6 +42,16 @@ module Coffer
         "/opt/coffer/bin/#{ wallet_executable }"
       end
 
+      # TODO: parse output and return
+      def call_rpc(*args)
+        pid = Process.spawn(
+          executable_path, *args
+        )
+
+        Process.wait pid
+      end
+
+      # TODO: figure out if launch was successful
       def start
         pid = Process.spawn(
                executable_path, "-daemon",

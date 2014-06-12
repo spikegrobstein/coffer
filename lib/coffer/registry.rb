@@ -46,7 +46,7 @@ module Coffer
 
       @coins << coin
 
-      warn "Loaded coin: #{ coin.inspect } #{ coin.symbol }"
+      # warn "Loaded coin: #{ coin.inspect } #{ coin.symbol }"
     end
 
     def find( coin )
