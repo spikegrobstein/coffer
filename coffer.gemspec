@@ -8,9 +8,9 @@ Gem::Specification.new do |spec|
   spec.version       = Coffer::VERSION
   spec.authors       = ["Spike Grobstein"]
   spec.email         = ["me@spike.cx"]
-  spec.description   = %q{TODO: Write a gem description}
-  spec.summary       = %q{TODO: Write a gem summary}
-  spec.homepage      = ""
+  spec.description   = %q{Cryptocurrency wallet manager}
+  spec.summary       = %q{Cryptocurrency wallet manager -- like homebrew, but for your wallets. Linux-only right now.}
+  spec.homepage      = "https://github.com/spikegrobstein/coffer"
   spec.license       = "MIT"
 
   spec.files         = `git ls-files`.split($/)
