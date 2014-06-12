@@ -42,6 +42,10 @@ module Coffer
         "/opt/coffer/bin/#{ wallet_executable }"
       end
 
+      def installed?
+        File.exists? executable_path
+      end
+
       # TODO: parse output and return
       def call_rpc(*args)
         pid = Process.spawn(

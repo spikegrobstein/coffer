@@ -56,21 +56,17 @@ module Coffer
       coin.stop
     end
 
-    def self.load_coins
-      Coffer::Registry.instance.coins.each do |coin|
-        # define actions:
-        # coffer <coin> <action>
-        block = Proc.new do |*action|
-          coin.call_rpc(*action)
-        end
+    def self.handle_no_command_error(command, has_namespace=$thor_runner)
+      coin = Coffer::Registry.instance.find(command)
 
-        desc "#{ coin.name.downcase } <action> [ <args ]", "Execute something in the context of this wallet."
-        define_method(coin.name.downcase.to_sym, &block)
-
-        desc "#{ coin.symbol.to_s.downcase.to_sym } <action> [ <args ]", "Execute something in the context of this wallet."
-        define_method(coin.symbol.to_s.downcase.to_sym, &block)
+      if coin.nil?
+        # warn "Unable to find a coin with a name or symbol of #{ coin }"
+        super
+        return
       end
-    end
 
+      ARGV.shift
+      coin.call_rpc( *ARGV )
+    end
   end
 end
