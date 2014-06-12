@@ -71,7 +71,7 @@ module Coffer
       end
 
       # make sure the tree is clean
-      g.reset_hard 'HEAD'
+      g.reset_hard
       g.clean :force => true, :d => true
 
       # fetch data from remote, checkout the right branch and merge into local branch
