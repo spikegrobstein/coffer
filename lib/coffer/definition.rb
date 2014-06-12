@@ -86,6 +86,9 @@ module Coffer
         @defaults ||= {}
         @defaults[name] = default
 
+        @attr_fields ||= []
+        @attr_fields << name
+
         instance_variable_set "@#{name}", default
 
         define_singleton_method(name) do |v=nil|
