@@ -116,7 +116,7 @@ module Coffer
     end
 
     def check_results
-      raise "Build failed. No executable!" unless built_executable_exists?
+      raise "Build failed. No executable!" unless built_executable_valid?
     end
 
     def make
@@ -176,8 +176,9 @@ module Coffer
       File.join repo_path, 'src', @coin.wallet_executable
     end
 
-    def built_executable_exists?
-      File.exists? built_executable_path
+    def built_executable_valid?
+      File.exists?( built_executable_path ) \
+        && File.executable?( built_executable_path )
     end
 
   end
