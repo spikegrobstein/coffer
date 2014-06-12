@@ -1,5 +1,5 @@
 require 'fileutils'
-require 'active_support'
+require 'active_support' # FIXME: this takes about half a second to load
 require 'singleton'
 
 module Coffer
