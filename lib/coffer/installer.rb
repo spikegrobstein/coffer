@@ -47,6 +47,8 @@ module Coffer
 
       g = Git.clone( coin.git_repo, File.basename(repo_path), :path => File.dirname(repo_path) )
 
+      g.checkout @coin.git_branch
+
       true
     end
 
@@ -73,7 +75,8 @@ module Coffer
       g.clean :force => true, :d => true
 
       # fetch data from remote, checkout the right branch and merge into local branch
-      g.pull
+      g.checkout @coin.git_branch
+      g.pull('origin', @coin.git_branch)
 
       # check if there are any changes.
       old_sha != g.object('HEAD').sha

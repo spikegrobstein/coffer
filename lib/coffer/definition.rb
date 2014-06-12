@@ -83,27 +83,30 @@ module Coffer
       end
 
       def attr_field( name, default=nil )
-        class_eval do
-          instance_variable_set "@#{name}", default
-          # class_variable_set "@#{name}", default
+        @defaults ||= {}
+        @defaults[name] = default
 
-          define_singleton_method(name) do |v=nil|
-            unless v.nil?
-              instance_variable_set "@#{name}", v
-            end
+        instance_variable_set "@#{name}", default
 
-            instance_variable_get "@#{name}"
+        define_singleton_method(name) do |v=nil|
+          unless v.nil?
+            instance_variable_set "@#{name}", v
           end
 
-          define_method(name) do
-            self.class.instance_variable_get "@#{name}"
-          end
+          basecoin = self.ancestors[1]
+
+          instance_variable_get("@#{name}") || basecoin.instance_variable_get(:'@defaults')[name]
+        end
+
+        define_method(name) do
+          self.class.instance_variable_get "@#{name}"
         end
 
       end
     end
 
     attr_field :git_repo
+    attr_field :git_branch, 'master'
     attr_field :wallet_executable
     attr_field :symbol
     attr_field :home_page
