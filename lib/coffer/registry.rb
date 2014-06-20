@@ -6,7 +6,7 @@ module Coffer
   class Registry
     include Singleton
 
-    BASE_DIR = '/opt/coffer'
+    BASE_DIR = File.expand_path('~/.coffer')
     BIN_DIR = File.join(BASE_DIR, 'bin')
     DATA_FILE = File.join(BASE_DIR, 'coins.dat')
 

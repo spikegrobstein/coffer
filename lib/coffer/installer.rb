@@ -3,8 +3,8 @@ require 'git'
 module Coffer
   class Installer
 
-    CACHE_DIR = '/opt/coffer/cache'
-    BIN_DIR = '/opt/coffer/bin'
+    CACHE_DIR = File.expand_path('~/.coffer/cache')
+    BIN_DIR = File.expand_path('~/.coffer/bin')
 
     attr_reader :coin
 
