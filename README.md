@@ -34,6 +34,23 @@ Probably ruby 2.x
 
 TODO: Write usage instructions here
 
+## Goals
+
+ * create searchable list of wallets
+ * install wallet by name from most recent code-base
+ * compile in docker container
+
+Post compilation should create a "home" directory for the wallet with the following structure
+
+  ~/.coffer/wallets/
+    feathercoin/bin/feathercoind
+    feathercoin/.feathercoind/feathercoin.conf
+    feathercoin/.feathercoind/<data files>
+
+When starting the wallet, give container working directory of the above home directory. execute wallet. name container accordingly (`coffer-wallet-<walletname>`?)
+
+run wallet as unprivileged user in container (`coffer`)
+
 ## Contributing
 
 1. Fork it

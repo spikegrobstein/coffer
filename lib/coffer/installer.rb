@@ -123,7 +123,7 @@ module Coffer
       if @coin.build.nil?
         cmd = "make -f '#{ makefile_name }'"
 
-        puts `#{cmd}`
+        execute_command_in_docker cmd, 'src'
 
         retval = $?
         if retval != 0
@@ -144,6 +144,25 @@ module Coffer
       end
 
       true
+    end
+
+    # workflow
+    # ensure code is cloned
+    # ensure code is up to date
+    # run build sequence in docker container
+    # check for executable
+    # copy to directory
+
+    # run wallet in docker container.
+
+    def execute_command_in_docker( cmd, working_dir )
+      image_name = 'spikegrobstein/coffer'
+
+      docker_cmd = "docker run -t -v '#{ repo_path }':/build -w '#{ File.join('/build', working_dir)}' '#{image_name}' #{cmd}"
+
+      puts "Running: #{ docker_cmd }"
+
+      puts `#{docker_cmd }`
     end
 
     def makefile_name

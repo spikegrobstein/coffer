@@ -6,3 +6,5 @@ RUN apt-get upgrade -y
 
 RUN apt-get install -y git build-essential libboost-all-dev libssl-dev libdb++-dev libminiupnpc-dev autoconf
 
+RUN useradd -s /bin/bash coffer
+
