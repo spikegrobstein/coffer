@@ -25,12 +25,13 @@ module Coffer
 
       warn "installing coin: #{ coin.name } (#{coin.symbol})"
 
-      installer = Coffer::Installer.new(coin)
-      if installer.install
-        puts "success!"
-      else
-        puts "Failed to install coin..."
-      end
+      # build
+      builder = Coffer::Builder.new(coin)
+      builder.repo.update
+      builder.build
+      builder.install
+
+      puts "Success!"
     end
 
     desc "start <coin>", "Start the given coin."
@@ -41,7 +42,8 @@ module Coffer
         warn "Unable to find a coin with a name or symbol of #{ coin }"
       end
 
-      coin.start
+      w = Coffer::Wallet.new(coin)
+      w.start
     end
 
     desc "stop <coin>", "Stop the given coin."

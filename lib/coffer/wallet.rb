@@ -42,7 +42,7 @@ module Coffer
 
       # drop the definition
       File.open( definition_path, 'w' ) do |f|
-        f.write Oj.dump(@coin.marshal_dump, :mode => :compat)
+        f.write Oj.dump(@coin.to_hash, :mode => :compat)
       end
 
       # dump config

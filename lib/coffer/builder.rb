@@ -1,4 +1,5 @@
 require 'term/ansicolor'
+require 'coffer/git_repository'
 
 module Coffer
   class Builder
