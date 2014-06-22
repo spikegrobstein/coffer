@@ -1,0 +1,324 @@
+import json
+from jsonrpc import ServiceProxy
+import sys
+import string
+import os
+
+def run_cmd(access, cmd, args):
+  if cmd == "backupwallet":
+    try:
+      path = raw_input("Enter destination path/filename: ")
+      return access.backupwallet(path)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getaccount":
+    try:
+      addr = raw_input("Enter a Feathercoin address: ")
+      return access.getaccount(addr)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getaccountaddress":
+    try:
+      acct = raw_input("Enter an account name: ")
+      return access.getaccountaddress(acct)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getaddressesbyaccount":
+    try:
+      acct = raw_input("Enter an account name: ")
+      return access.getaddressesbyaccount(acct)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getbalance":
+    try:
+      acct = raw_input("Enter an account (optional): ")
+      mc = raw_input("Minimum confirmations (optional): ")
+      try:
+        return access.getbalance(acct, mc)
+      except:
+        return access.getbalance()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getblockbycount":
+    try:
+      height = raw_input("Height: ")
+      return access.getblockbycount(height)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getblockcount":
+    try:
+      return access.getblockcount()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getblocknumber":
+    try:
+      return access.getblocknumber()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getconnectioncount":
+    try:
+      return access.getconnectioncount()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getdifficulty":
+    try:
+      return access.getdifficulty()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getgenerate":
+    try:
+      return access.getgenerate()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "gethashespersec":
+    try:
+      return access.gethashespersec()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getinfo":
+    try:
+      return access.getinfo()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getnewaddress":
+    try:
+      acct = raw_input("Enter an account name: ")
+      try:
+        return access.getnewaddress(acct)
+      except:
+        return access.getnewaddress()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getreceivedbyaccount":
+    try:
+      acct = raw_input("Enter an account (optional): ")
+      mc = raw_input("Minimum confirmations (optional): ")
+      try:
+        return access.getreceivedbyaccount(acct, mc)
+      except:
+        return access.getreceivedbyaccount()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getreceivedbyaddress":
+    try:
+      addr = raw_input("Enter a Feathercoin address (optional): ")
+      mc = raw_input("Minimum confirmations (optional): ")
+      try:
+        return access.getreceivedbyaddress(addr, mc)
+      except:
+        return access.getreceivedbyaddress()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "gettransaction":
+    try:
+      txid = raw_input("Enter a transaction ID: ")
+      return access.gettransaction(txid)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "getwork":
+    try:
+      data = raw_input("Data (optional): ")
+      try:
+        return access.gettransaction(data)
+      except:
+        return access.gettransaction()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "help":
+    try:
+      cmd = raw_input("Command (optional): ")
+      try:
+        return access.help(cmd)
+      except:
+        return access.help()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "listaccounts":
+    try:
+      mc = raw_input("Minimum confirmations (optional): ")
+      try:
+        return access.listaccounts(mc)
+      except:
+        return access.listaccounts()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "listreceivedbyaccount":
+    try:
+      mc = raw_input("Minimum confirmations (optional): ")
+      incemp = raw_input("Include empty? (true/false, optional): ")
+      try:
+        return access.listreceivedbyaccount(mc, incemp)
+      except:
+        return access.listreceivedbyaccount()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "listreceivedbyaddress":
+    try:
+      mc = raw_input("Minimum confirmations (optional): ")
+      incemp = raw_input("Include empty? (true/false, optional): ")
+      try:
+        return access.listreceivedbyaddress(mc, incemp)
+      except:
+        return access.listreceivedbyaddress()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "listtransactions":
+    try:
+      acct = raw_input("Account (optional): ")
+      count = raw_input("Number of transactions (optional): ")
+      frm = raw_input("Skip (optional):")
+      try:
+        return access.listtransactions(acct, count, frm)
+      except:
+        return access.listtransactions()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "move":
+    try:
+      frm = raw_input("From: ")
+      to = raw_input("To: ")
+      amt = raw_input("Amount:")
+      mc = raw_input("Minimum confirmations (optional): ")
+      comment = raw_input("Comment (optional): ")
+      try:
+        return access.move(frm, to, amt, mc, comment)
+      except:
+        return access.move(frm, to, amt)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "sendfrom":
+    try:
+      frm = raw_input("From: ")
+      to = raw_input("To: ")
+      amt = raw_input("Amount:")
+      mc = raw_input("Minimum confirmations (optional): ")
+      comment = raw_input("Comment (optional): ")
+      commentto = raw_input("Comment-to (optional): ")
+      try:
+        return access.sendfrom(frm, to, amt, mc, comment, commentto)
+      except:
+        return access.sendfrom(frm, to, amt)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "sendmany":
+    try:
+      frm = raw_input("From: ")
+      to = raw_input("To (in format address1:amount1,address2:amount2,...): ")
+      mc = raw_input("Minimum confirmations (optional): ")
+      comment = raw_input("Comment (optional): ")
+      try:
+        return access.sendmany(frm,to,mc,comment)
+      except:
+        return access.sendmany(frm,to)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "sendtoaddress":
+    try:
+      to = raw_input("To (in format address1:amount1,address2:amount2,...): ")
+      amt = raw_input("Amount:")
+      comment = raw_input("Comment (optional): ")
+      commentto = raw_input("Comment-to (optional): ")
+      try:
+        return access.sendtoaddress(to,amt,comment,commentto)
+      except:
+        return access.sendtoaddress(to,amt)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "setaccount":
+    try:
+      addr = raw_input("Address: ")
+      acct = raw_input("Account:")
+      return access.setaccount(addr,acct)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "setgenerate":
+    try:
+      gen= raw_input("Generate? (true/false): ")
+      cpus = raw_input("Max processors/cores (-1 for unlimited, optional):")
+      try:
+        return access.setgenerate(gen, cpus)
+      except:
+        return access.setgenerate(gen)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "settxfee":
+    try:
+      amt = raw_input("Amount:")
+      return access.settxfee(amt)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "stop":
+    try:
+      return access.stop()
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "validateaddress":
+    try:
+      addr = raw_input("Address: ")
+      return access.validateaddress(addr)
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "walletpassphrase":
+    try:
+      pwd = raw_input("Enter wallet passphrase: ")
+      return access.walletpassphrase(pwd, 60)
+      #return "\n---Wallet unlocked---\n"
+    except:
+      return "\n---An error occurred---\n"
+
+  elif cmd == "walletpassphrasechange":
+    try:
+      pwd = raw_input("Enter old wallet passphrase: ")
+      pwd2 = raw_input("Enter new wallet passphrase: ")
+      return access.walletpassphrasechange(pwd, pwd2)
+      #return "\n---Passphrase changed---\n"
+    except:
+      return "\n---An error occurred---\n"
+
+  else:
+    return "Command not found or not supported"
+
+server = sys.argv[1]
+
+access = ServiceProxy( server )
+
+# access = ServiceProxy("http://"+rpcuser+":"+rpcpass+"@172.17.42.1:49166")
+
+cmd = sys.argv[2].lower()
+
+result = run_cmd( access, cmd, sys.argv[3:] )
+
+print json.dumps( result )
+

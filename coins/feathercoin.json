@@ -1,0 +1,8 @@
+{
+  "name": "feathercoin"
+  "git_repo": "https://github.com/FeatherCoin/Feathercoin.git",
+  "home_page": "https://www.feathercoin.com",
+  "symbol": "FTC",
+  "wallet_executable": "feathercoind",
+  "config_file_path": ".feathercoin/feathercoin.conf"
+}

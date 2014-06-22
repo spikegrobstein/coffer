@@ -1,0 +1,8 @@
+{
+  "name": "mincoin",
+  "git_repo": "https://github.com/mincoin/mincoin.git",
+  "home_page": "https://mincoin.io",
+  "symbol": "MNC",
+  "wallet_executable": "mincoind",
+  "config_file_path": ".Mincoin/mincoind.conf",
+}
