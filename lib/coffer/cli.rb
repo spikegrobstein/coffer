@@ -89,7 +89,12 @@ module Coffer
     def stop(coin)
       coin = Coffer::Registry.instance.find(coin)
 
-      raise "not implemented."
+      if coin.nil?
+        warn "Unable to find a coin with a name or symbol of #{ coin }"
+      end
+
+      w = Coffer::Wallet.new(coin)
+      w.stop
     end
 
     desc "rpc <coin> <action> [<params>]", "Run the given RPC against coin"

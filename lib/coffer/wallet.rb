@@ -113,5 +113,10 @@ EOF
     def start
       docker_exec File.join('bin', @coin.executable), home_path
     end
+
+    def stop
+      `docker kill coffer.'#{ @coin.name }'`
+      `docker rm coffer.'#{ @coin.name }'`
+    end
   end
 end
