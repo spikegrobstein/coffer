@@ -6,8 +6,18 @@ module Coffer
   class CLI < Thor
     desc "list", "List all coins"
     def list
+      running_wallets = Coffer::Wallet.running_wallets.map { |w| w['names'].scan(/(?:coffer\.)(.+)/).flatten.first }
+      installed_wallets = Coffer::Wallet.installed_wallets
+
       Coffer::Registry.instance.coins.each do |coin|
-        puts "%-20s (%s)" % [ coin.name, coin.symbol ]
+        status = if running_wallets.include?(coin.name)
+                   'running'
+                 elsif installed_wallets.include?(coin.name)
+                   'installed'
+                 else
+                   ''
+                 end
+        puts "%-20s %-6s %-20s" % [ coin.name, coin.symbol, status ]
       end
     end
 
