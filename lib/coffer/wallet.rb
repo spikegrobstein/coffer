@@ -106,6 +106,10 @@ EOF
       end
     end
 
+    def self.installed_wallets
+      Dir[Coffer::WALLET_DIR + "/*"].map { |f| File.basename(f) }
+    end
+
     def start
       docker_exec File.join('bin', @coin.executable), home_path
     end
