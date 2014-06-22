@@ -50,24 +50,24 @@ module Coffer
     def stop(coin)
       coin = Coffer::Registry.instance.find(coin)
 
-      if coin.nil?
-        warn "Unable to find a coin with a name or symbol of #{ coin }"
-      end
-
-      coin.stop
+      raise "not implemented."
     end
 
-    def self.handle_no_command_error(command, has_namespace=$thor_runner)
-      coin = Coffer::Registry.instance.find(command)
+    desc "rpc <coin> <action> [<params>]", "Run the given RPC against coin"
+    def rpc(coin, action, *params)
+      coin = Coffer::Registry.instance.find(coin)
 
       if coin.nil?
-        # warn "Unable to find a coin with a name or symbol of #{ coin }"
-        super
-        return
+        abort "Unable to find a coin with a name or symbol of #{ coin }"
       end
 
-      ARGV.shift
-      coin.call_rpc( *ARGV )
+      output = `docker ps | grep #{ coin.name }`
+      host, port = output.scan(/\s(\d+\.\d+\.\d+\.\d+):(\d+)->4000/).first
+
+      client = Client.new( host, port, 'cofferrpc', 'cofferrpcpassword')
+
+      p client.send(action, params)
+
     end
   end
 end
