@@ -5,26 +5,76 @@ require 'ostruct'
 require 'logger'
 require 'term/ansicolor'
 require 'oj'
+require 'hashie'
+
 require 'pry'
 
-include Term::ANSIColor
+feathercoin_def = {
+  :name              => 'feathercoin',
+  :home_page         => 'https://www.feathercoin.com',
+  :symbol            => :FTC,
+  :executable        => 'feathercoind',
+  :config_file_path       => '.feathercoin/feathercoin.conf',
 
-feathercoin = OpenStruct.new
-feathercoin.name = 'feathercoin'
-feathercoin.git_repo = 'https://github.com/FeatherCoin/Feathercoin.git'
-feathercoin.home_page = 'https://www.feathercoin.com'
-feathercoin.symbol = :FTC
-feathercoin.executable = 'feathercoind'
-feathercoin.config_file = '.feathercoin/feathercoin.conf'
-feathercoin.git_branch = 'master-0.8'
-feathercoin.artifact_location = 'src'
+  :git_repo          => 'https://github.com/FeatherCoin/Feathercoin.git',
+  :git_branch        => 'master-0.8'
+  # :artifact_location => 'src',
 
-feathercoin.build_script = "cd src && make -f makefile.unix"
+  # :build_script      => "cd src && make -f makefile.unix"
+}
+
+litecoin_def = {
+  :name              => 'litecoin',
+  :home_page         => 'https://www.litecoin.com',
+  :symbol            => :LTC,
+  :executable        => 'litecoind',
+  :config_file_path       => '.litecoin/litecoin.conf',
+
+  :git_repo          => 'https://github.com/litecoin-project/litecoin.git',
+  # :git_branch        => 'master-0.8'
+  # :artifact_location => 'src',
+
+  # :build_script      => "cd src && make -f makefile.unix"
+}
 
 module Coffer
   HOME_DIR = File.expand_path('~/.coffer')
   CACHE_DIR = File.join(HOME_DIR, 'cache')
 end
+
+module Coffer
+  class Coin < Hashie::Trash
+
+    property :name, :required => true, :from => 'name'
+    property :home_page, :required => true, :from => 'home_page'
+    property :symbol, :required => true, :from => 'symbol'
+    property :executable, :required => true, :from => 'executable'
+    property :config_file_path, :required => true, :from => 'config_file_path'
+    property :config, :from => 'config'
+
+    property :git_repo, :required => true, :from => 'git_repo'
+    property :git_branch, :default => 'master', :from => 'git_branch'
+    property :artifact_location, :default => 'src', :from => 'artifact_location'
+    property :build_script, :default => 'cd src && make -f makefile.unix', :from => 'build_script'
+
+    def self.new_from_json( json )
+      new Hashie::Extensions::IndifferentAccess.inject!(Oj.load( json ))
+    end
+
+    def self.new_from_file( file )
+      new_from_json File.open( file, 'r' ).read
+    end
+  end
+end
+
+litecoin = Coffer::Coin.new(litecoin_def)
+feathercoin = Coffer::Coin.new(feathercoin_def)
+
+ltc_json_def = Oj.dump( litecoin_def, :mode => :compat )
+ltc_coin = Coffer::Coin.new_from_json(ltc_json_def)
+binding.pry
+
+exit
 
 class GitRepository
   include Term::ANSIColor
@@ -175,6 +225,7 @@ end
 #   <config_dir>
 
 class Wallet
+  include Term::ANSIColor
 
   attr_accessor :coin, :home_path
 
@@ -192,7 +243,7 @@ class Wallet
   end
 
   def wallet_data_path
-    File.join home_path, File.dirname(@coin.config_file)
+    File.join home_path, File.dirname(@coin.config_file_path)
   end
 
   def executable_path
@@ -200,7 +251,7 @@ class Wallet
   end
 
   def config_path
-    File.join home_path, @coin.config_file
+    File.join home_path, @coin.config_file_path
   end
 
   # given an executable, drop it in the right place and stuff
@@ -221,8 +272,8 @@ class Wallet
 rpcuser=cofferrpc
 rpcpassword=cofferrpcpassword
 server=1
-rpcallowip=0.0.0.0
-port=4000
+rpcallowip=*
+rpcport=4000
 listen=1
 EOF
     end
@@ -241,7 +292,8 @@ EOF
       "-w /coffer", # working directory
       '-e HOME=/coffer',
       '-d',
-      '-p 127.0.0.1::4000',
+      "--name coffer.#{@coin.name}",
+      '-p 172.17.42.1::4000',
       image_name,
       cmd
     ].join(' ')
@@ -258,6 +310,35 @@ EOF
   end
 end
 
+class Client
+  attr_accessor :port, :host, :username, :password
+
+  def initialize( host, port , username, password )
+    @port = port
+    @host = host
+    @username = username
+    @password = password
+  end
+
+  def method_missing(name, *args)
+    post_body = { 'method' => name, 'params' => args, 'id' => 'jsonrpc' }.to_json
+    resp = JSON.parse( http_post_request(post_body) )
+    raise JSONRPCError, resp['error'] if resp['error']
+    resp['result']
+  end
+
+  def http_post_request(post_body)
+    http    = Net::HTTP.new(host, port)
+    request = Net::HTTP::Post.new('/')
+    request.basic_auth username, password
+    request.content_type = 'application/json'
+    request.body = post_body
+    http.request(request).body
+  end
+
+  class JSONRPCError < RuntimeError; end
+end
+
 b = Builder.new( feathercoin )
 # b.repo.clean
 b.repo.update
@@ -265,7 +346,17 @@ b.build
 
 b.install
 
-puts green("Success!")
+puts Term::ANSIColor.green("Success!")
 
 w = Wallet.new( feathercoin )
 w.start
+
+output = `docker ps | grep #{ feathercoin.name }`
+host, port = output.scan(/\s(\d+\.\d+\.\d+\.\d+):(\d+)->4000/).first
+
+binding.pry
+client = Client.new( host, port, 'cofferrpc', 'cofferrpcpassword')
+
+puts client.getinfo
+
+binding.pry

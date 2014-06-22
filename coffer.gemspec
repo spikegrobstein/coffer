@@ -27,4 +27,5 @@ Gem::Specification.new do |spec|
   spec.add_dependency 'thor'
   spec.add_dependency 'term-ansicolor'
   spec.add_dependency 'oj'
+  spec.add_dependency 'hashie'
 end
