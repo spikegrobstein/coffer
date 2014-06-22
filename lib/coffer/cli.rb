@@ -66,7 +66,7 @@ module Coffer
 
       client = Client.new( host, port, 'cofferrpc', 'cofferrpcpassword')
 
-      p client.send(action, params)
+      puts client.send(action, *params)
 
     end
   end
