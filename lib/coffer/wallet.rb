@@ -84,6 +84,28 @@ EOF
       $?.success? or raise "Error when running command; status #{$?.exitstatus}"
     end
 
+    def self.running_wallets
+      output = `docker ps`
+      output = output.split(/\n/)
+      header = output.shift
+      header_fields = (header+"  ").scan(/\w.+?\s\s+/) # hack some spaces at the end to get all fields
+      field_widths = header_fields.map { |h| h.length }
+      field_widths[-1] = 1000 # so we read teh entire name field
+      header_fields = header_fields.map { |f| f.downcase.strip.gsub(/\s/, '_') }
+
+      output.map do |line|
+        counter = 0
+
+        Hash[header_fields.each_with_index.map do |f, i|
+          w = field_widths[i]
+          result = line[counter,w].strip
+          counter += w
+          [f, result]
+        end]
+
+      end
+    end
+
     def start
       docker_exec File.join('bin', @coin.executable), home_path
     end
