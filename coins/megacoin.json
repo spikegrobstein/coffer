@@ -1,5 +1,6 @@
 {
   "name": "megacoin",
+  "algorithm":"scrypt",
   "git_repo": "https://github.com/megacoin/megacoin.git",
   "home_page": "http://megacoin.co.nz",
   "symbol": "MEC",

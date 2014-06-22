@@ -1,5 +1,6 @@
 {
   "name": "mincoin",
+  "algorithm":"scrypt",
   "git_repo": "https://github.com/mincoin/mincoin.git",
   "home_page": "https://mincoin.io",
   "symbol": "MNC",

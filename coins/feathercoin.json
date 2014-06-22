@@ -1,5 +1,6 @@
 {
   "name": "feathercoin",
+  "algorithm":"scrypt",
   "git_repo": "https://github.com/FeatherCoin/Feathercoin.git",
   "home_page": "https://www.feathercoin.com",
   "symbol": "FTC",

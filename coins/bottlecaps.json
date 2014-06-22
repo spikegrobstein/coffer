@@ -1,5 +1,6 @@
 {
   "name": "bottlecaps",
+  "algorithm":"scrypt",
   "git_repo": "https://github.com/bottlecaps-foundation/bottlecaps.git",
   "home_page": "https://cryptocointalk.com/forum/242-bottlecaps-cap/",
   "symbol": "CAP",

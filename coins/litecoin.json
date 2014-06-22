@@ -1,5 +1,6 @@
 {
   "name":"litecoin",
+  "algorithm":"scrypt",
   "git_branch": "master-0.8",
   "git_repo": "https://github.com/litecoin-project/litecoin.git",
   "home_page": "https://litecoin.org",

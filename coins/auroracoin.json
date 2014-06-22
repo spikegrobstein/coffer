@@ -1,5 +1,6 @@
 {
   "name": "auroracoin",
+  "algorithm":"scrypt",
   "git_repo": "https://github.com/baldurodinsson/auroracoin-project.git",
   "home_page": "http://auroracoin.org",
   "symbol": "AUR",

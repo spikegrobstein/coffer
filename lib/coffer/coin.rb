@@ -10,6 +10,7 @@ module Coffer
     property :executable, :required => true, :from => 'executable'
     property :config_file_path, :required => true, :from => 'config_file_path'
     property :config, :from => 'config'
+    property :algorithm, :from => 'algorithm', :required => true
 
     property :git_repo, :required => true, :from => 'git_repo'
     property :git_branch, :default => 'master', :from => 'git_branch'

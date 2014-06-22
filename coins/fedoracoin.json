@@ -1,5 +1,6 @@
 {
   "name":"fedoracoin",
+  "algorithm":"scrypt",
   "home_page": "http://fedoraco.in",
   "git_repo": "https://github.com/fedoracoin/fedoracoin.git",
   "symbol": "TIPS",
