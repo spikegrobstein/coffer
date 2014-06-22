@@ -1,5 +1,6 @@
 require 'thor'
 require 'coffer'
+require 'pry'
 
 module Coffer
   class CLI < Thor
@@ -32,6 +33,34 @@ module Coffer
       builder.install
 
       puts "Success!"
+    end
+
+    desc "build <coin>", "Build the given coin, but don't install"
+    def build(coin)
+      coin = Coffer::Registry.instance.find( coin )
+
+      if coin.nil?
+        warn "Unable to find a coin with a name or symbol of #{ coin }"
+      end
+
+      warn "installing coin: #{ coin.name } (#{coin.symbol})"
+
+      # build
+      builder = Coffer::Builder.new(coin)
+      builder.repo.update
+      builder.build
+    end
+
+    desc "clean <coin>", "Delete sourcecode and stuff."
+    def clean(coin)
+      coin = Coffer::Registry.instance.find( coin )
+
+      if coin.nil?
+        abort "Unable to find a coin with a name or symbol of #{ coin }"
+      end
+
+      builder = Coffer::Builder.new(coin)
+      builder.repo.clean
     end
 
     desc "start <coin>", "Start the given coin."
