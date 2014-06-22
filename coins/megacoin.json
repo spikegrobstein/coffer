@@ -3,6 +3,6 @@
   "git_repo": "https://github.com/megacoin/megacoin.git",
   "home_page": "http://megacoin.co.nz",
   "symbol": "MEC",
-  "wallet_executable": "megacoind",
+  "executable": "megacoind",
   "config_file_path": ".Megacoin/megacoin.conf"
 }

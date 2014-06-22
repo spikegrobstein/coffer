@@ -3,6 +3,6 @@
   "git_repo": "https://github.com/baldurodinsson/auroracoin-project.git",
   "home_page": "http://auroracoin.org",
   "symbol": "AUR",
-  "wallet_executable": "auroracoind",
-  "config_file_path": ".auroracoin/auroracoin.conf",
+  "executable": "auroracoind",
+  "config_file_path": ".auroracoin/auroracoin.conf"
 }

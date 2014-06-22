@@ -3,6 +3,6 @@
   "home_page": "http://fedoraco.in",
   "git_repo": "https://github.com/fedoracoin/fedoracoin.git",
   "symbol": "TIPS",
-  "wallet_executable": "fedoracoind",
+  "executable": "fedoracoind",
   "config_file_path": ".fedoracoin/fedoracoin.conf"
 }
