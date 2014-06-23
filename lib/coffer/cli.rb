@@ -1,6 +1,5 @@
 require 'thor'
 require 'coffer'
-require 'pry'
 
 module Coffer
   class CLI < Thor
