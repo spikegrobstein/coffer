@@ -15,7 +15,12 @@ module Coffer
 
     def load_coins(directory)
       Dir["#{ directory }/*.json"].each do |d|
-        self.load d
+        begin
+          self.load d
+        rescue
+          # report the failure, but continue.
+          warn "Error loading coin definition: #{ d }"
+        end
       end
     end
 
