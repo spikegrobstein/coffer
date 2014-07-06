@@ -266,6 +266,8 @@ class Wallet
       f.write Oj.dump(@coin.marshal_dump, :mode => :compat)
     end
 
+warn "dropping config @ #{ config_path }"
+
     # dump config
     File.open( config_path, 'w' ) do |f|
       f.write <<EOF

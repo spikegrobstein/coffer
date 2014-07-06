@@ -72,6 +72,7 @@ EOF
 
     def install
       wallet = Wallet.new( @coin )
+      warn "creating wallet #{ @coin.name }"
       wallet.create( artifact_path )
     end
   end

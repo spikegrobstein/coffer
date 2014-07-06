@@ -39,6 +39,8 @@ module Coffer
       builder = Coffer::Builder.new(coin)
       builder.repo.update
       builder.build
+
+      warn "installing..."
       builder.install
 
       puts "Success!"

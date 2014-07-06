@@ -45,6 +45,8 @@ module Coffer
         f.write Oj.dump(@coin.to_hash, :mode => :compat)
       end
 
+warn "dropping config @ #{ config_path }"
+
       # dump config
       File.open( config_path, 'w' ) do |f|
         f.write <<EOF
