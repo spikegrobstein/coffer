@@ -1,0 +1,10 @@
+{
+  "name": "earthcoin",
+  "algorithm":"scrypt",
+  "git_repo": "https://github.com/earthcoinproject/earthcoin.git",
+  "home_page": "http://getearthcoin.com",
+  "symbol": "EAC",
+  "executable": "earthcoind",
+  "config_file_path": ".earthcoin/earthcoin.conf"
+}
+
