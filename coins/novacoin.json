@@ -1,0 +1,12 @@
+{
+  "name": "novacoin",
+  "algorithm":"scrypt",
+  "git_repo": "https://github.com/novacoin-project/novacoin.git",
+  "git_branch":"current",
+  "home_page": "http://novacoin.org",
+  "symbol": "NVC",
+  "executable": "novacoind",
+  "config_file_path": ".novacoin/novacoin.conf"
+}
+
+
